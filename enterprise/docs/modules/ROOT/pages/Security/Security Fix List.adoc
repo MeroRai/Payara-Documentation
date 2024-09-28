@@ -1,11 +1,50 @@
-[[security-fixes-summary]]
-= Security Fixes Summary
+[[security-advisories]]
+= Security Advisories
 
-The following is a list of tracked _**C**ommon **V**ulnerabilities and **E**xposures_ that have been reported and analyzed, which can or have impacted Payara Platform distributions across releases:
+The following is a list of reported _**C**ommon **V**ulnerabilities and **E**xposures_ that have been analyzed and documented across releases:
 
-[cols="<,<,<,<,<,<",options="header",]
+[cols="10%,10%,10%,30%,5%,35%a",options="header",]
 |=======================================================================
-|ID |CVSS v3.0 Base Score |Status |Summary |Release |Observations
+|ID |link:https://nvd.nist.gov/vuln-metrics/cvss[CVSS Score] |Status |Summary |Release |Observations
+
+|https://nvd.nist.gov/vuln/detail/CVE-2024-8097[CVE-2024-8097] | 6.7 | FIXED | When the `org.glassfish.admingui` logger is set to the FINEST level, sensitive information can be exposed in log files.  | 6.18.0 | Exposes passwords through server log
+
+|https://nvd.nist.gov/vuln/detail/CVE-2024-7312[CVE-2024-7312] |7.0 | FIXED | REST Interface Link Redirection via Host parameter | 6.18.0 | Only affects the Server admin REST interface.
+
+|https://nvd.nist.gov/vuln/detail/CVE-2023-52428[CVE-2023-52428] | - | FIXED | In Connect2id Nimbus JOSE+JWT before 9.37.2, an attacker can cause a denial of service (resource consumption) via a large JWE p2c header value (aka iteration count) for the PasswordBasedDecrypter (PBKDF2) component | 6.15.0 | Fixed by upgrading Nimbus Jose JWT bundled in Payara Server, and the version used to compile the Payara security connectors.
+
+|https://nvd.nist.gov/vuln/detail/CVE-2023-4043[CVE-2023-4043] | 7.5 | FIXED | In Eclipse Parsson before versions 1.1.4 and 1.0.5, Parsing JSON from untrusted sources can lead malicious actors to exploit the fact that the built-in support for parsing numbers with large scale in Java has a number of edge cases where the input text of a number can lead to much larger processing time than one would expect. To mitigate the risk, parsson put in place a size limit for the numbers as well as their scale. | 6.13.0 | Fixed by Parsson upgrade
+
+|https://nvd.nist.gov/vuln/detail/CVE-2023-0833[CVE-2023-0833] | 5.5 | FIXED | A flaw was found in Red Hat's AMQ-Streams, which ships a version of the OKHttp component with an information disclosure flaw via an exception triggered by a header containing an illegal value. |6.10.0 | Fixed by OKHttp Upgrade
+
+|https://nvd.nist.gov/vuln/detail/CVE-2023-3635[CVE-2023-3635] | 7.5 | FIXED | GzipSource does not handle an exception that might be raised when parsing a malformed gzip buffer. This may lead to denial of service of the Okio client. | 6.10.0 | Fixed by OKHttp Upgrade
+
+|https://nvd.nist.gov/vuln/detail/CVE-2021-36374[CVE-2021-36374] | 5.5 | FIXED | A specially crafted ZIP archive can cause an out of memory error | 6.9.0 | Fixed by Apache Ant upgrade
+
+|https://nvd.nist.gov/vuln/detail/CVE-2021-36373[CVE-2021-36373] | 5.5 | FIXED | A specially crafted TAR archive can cause an out of memory error | 6.9.0 | Fixed by Apache Ant upgrade
+
+|https://nvd.nist.gov/vuln/detail/CVE-2020-1945[CVE-2020-1945] | 6.3 | FIXED | Sensitive information may be leaked by the default temporary directory | 6.9.0 | Fixed by Apache Ant upgrade
+
+|https://nvd.nist.gov/vuln/detail/CVE-2023-41699[CVE-2023-41699] | 6.1 | FIXED | URL Redirection to Untrusted Site ('Open Redirect') vulnerability in FORM authentication feature on root context | 6.8.0 | Fixed by porting fix from Apache Tomcat.
+
+|https://nvd.nist.gov/vuln/detail/CVE-2023-1370[CVE-2023-1370] | 7.5 | FIXED | [Json-smart](https://netplex.github.io/json-smart/) is a performance focused, JSON processor lib. When reaching a ‘[‘ or ‘{‘ character in the JSON input, the code parses an array or an object respectively. It was discovered that the code does not have any limit to the nesting of such arrays or objects. Since the parsing of nested arrays and objects is done recursively, nesting too many of them can cause a stack exhaustion (stack overflow) and crash the software. | 6.7.0 | Fixed by upgrading shaded json-smart version on Ecosystem Security submodule.
+
+|https://nvd.nist.gov/vuln/detail/CVE-2017-12617[CVE-2017-12617] | 8.1 | FIXED | When running Apache Tomcat versions 9.0.0.M1 to 9.0.0, 8.5.0 to 8.5.22, 8.0.0.RC1 to 8.0.46 and 7.0.0 to 7.0.81 with HTTP PUTs enabled (e.g. via setting the readonly initialisation parameter of the Default servlet to false) it was possible to upload a JSP file to the server via a specially crafted request. This JSP could then be requested and any code it contained would be executed by the server. | 6.6.0 | Fixed by porting solution from Tomcat.
+
+|https://nvd.nist.gov/vuln/detail/CVE-2023-1370[CVE-2023-1370] | 7.5 | FIXED | Json-smart is a library used by Payara Server for processing JSON in our implementations of MicroProfile. It was discovered that Json-smart does not limit the nesting of arrays or objects, the parsing of which is done recursively, and could lead to stack exhaustion and crash the software.  | 6.2.0 | Fixed by updating Json-smart to 2.4.10.
+
+|https://nvd.nist.gov/vuln/detail/CVE-2022-0265[CVE-2022-0265] | 9.8 | FIXED | Improper Restriction of XML External Entity Reference in GitHub repository hazelcast/hazelcast in 5.1-BETA-1.  || This can only be triggered if explicitly using hazelcast to parse XML data.
+
+|https://nvd.nist.gov/vuln/detail/CVE-2023-28462[CVE-2023-28462] | 9.8 | N/A |JNDI Exploit using `context.rebind` method when running Payara Server on an older JDK 8 Update. The JNDI exploit can be triggered via access to insecure ORB listeners exposed by a Payara Server installation.  || This issue doesn't affect Payara Server Enterprise as Java 11 is the minimum Java version required to run it.
+
+NOTE: It is ALWAYS recommended to properly secure or disable any public facing ORB listeners, even if the exploit cannot be triggered.
+|https://nvd.nist.gov/vuln/detail/CVE-2022-42920[CVE-2022-42920] | 9.8 | FIXED | Apache Commons BCEL has a number of APIs that would normally only allow changing specific class characteristics. However, due to an out-of-bounds writing issue, these APIs can be used to produce arbitrary bytecode. This could be abused in applications that pass attacker-controllable data to those APIs, giving the attacker more control over the resulting bytecode than otherwise expected. | 6.0.0 | Fixed by upgrading Apache BCEL to 6.6.1
+
+|https://nvd.nist.gov/vuln/detail/CVE-2022-1471[CVE-2022-1471] | 9.8 | FIXED | SnakeYaml's Constructor() class does not restrict types which can be instantiated during deserialization. Deserializing yaml content provided by an attacker can lead to remote code execution | 6.2.0 | SnakeYaml constructors are not used by any features or facilities, so this vulnerability doesn't affect Payara Platform Enterprise. Fixed by updating SnakeYaml to 2.0.
+
+|https://nvd.nist.gov/vuln/detail/CVE-2022-1471[CVE-2022-1471] | 9.8 | N/A | SnakeYaml's Constructor() class does not restrict types which can be instantiated during deserialization. Deserializing yaml content provided by an attacker can lead to remote code execution | | SnakeYaml constructors are not used by any features or facilities, so this vulnerability doesn't affect Payara Platform in any way.
+
+|https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-45129[CVE-2022-45129] | 7.5 | FIXED | A vulnerability exploit opens up to attackers a way to explore the contents of the WEB-INF and META-INF folders if an application is deployed to the root context. | 5.45.0 | Internal fix on Servlet engine
 
 |https://nvd.nist.gov/vuln/detail/CVE-2020-36518[CVE-2020-36518] | 7.5 | FIXED | jackson-databind allows a Java StackOverflow exception and denial of service via a large depth of nested objects. | 5.38.0 | Fixed by upgrading jackson-databind to 2.12.6.1
 
@@ -27,7 +66,7 @@ The following is a list of tracked _**C**ommon **V**ulnerabilities and **E**xpos
 
 | https://nvd.nist.gov/vuln/detail/CVE-2021-31684[CVE-2021-31684] | 7.5 | FIXED | A vulnerability in the indexOf function of JSONParserByteArray in JSON Smart versions 1.3 and 2.4 which causes a denial of service (DOS) via a crafted web request. | 5.30.0 | Fixed by upgrading JSON Smart to 2.4.7
 
-| https://nvd.nist.gov/vuln/detail/CVE-2021-28170[CVE-2021-28170] | 5.3 | FIXED | A bug in the ELParserTokenManager enables invalid EL expressions to be evaluated as if they were valid | 5.29.0 | Fixed by backporting a fix from the latest Jakarta Expression Language snapshot version 
+| https://nvd.nist.gov/vuln/detail/CVE-2021-28170[CVE-2021-28170] | 5.3 | FIXED | A bug in the ELParserTokenManager enables invalid EL expressions to be evaluated as if they were valid | 5.29.0 | Fixed by backporting a fix from the latest Jakarta Expression Language snapshot version
 
 |https://nvd.nist.gov/vuln/detail/CVE-2020-10693[CVE-2020-10693] | 5.3 | FIXED | A flaw was found in Hibernate Validator version 6.1.2.Final. A bug in the message interpolation processor enables invalid EL expressions to be evaluated as if they were valid. This flaw allows attackers to bypass input sanitation (escaping, stripping) controls. | 5.23.1 | Fixed by upgrading Hibernate Validator to 6.1.5
 
@@ -35,7 +74,7 @@ The following is a list of tracked _**C**ommon **V**ulnerabilities and **E**xpos
 
 |https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-6950[CVE-2020-6950] | 7.5 | FIXED | Eclipse Mojarra vulnerable to path trasversal flaw via either loc/con parameters | 5.201 | Fixed by upgrading Mojarra to 2.3.14
 
-|https://nvd.nist.gov/vuln/detail/CVE-2019-12086[CVE-2019-12086] | 7.5 | FIXED | A Polymorphic Typing issue was discovered in FasterXML jackson-databind 2.x before 2.9.9 | 5.193, 5.192.1, 5.191.4 | 
+|https://nvd.nist.gov/vuln/detail/CVE-2019-12086[CVE-2019-12086] | 7.5 | FIXED | A Polymorphic Typing issue was discovered in FasterXML jackson-databind 2.x before 2.9.9 | 5.193, 5.192.1, 5.191.4 |
 
 |https://nvd.nist.gov/vuln/detail/CVE-2018-14721[CVE-2018-14721] | 10.0 | FIXED | FasterXML jackson-databind 2.x before 2.9.7 might allow remote attackers to conduct server-side request forgery (SSRF) attacks | 5.191, 5.184.1, 5.181.10, 4.1.2.191, 4.1.2.184.1, 4.1.2.181.10 | Fixed in *FasterXML Jackson 2.9.7*, component updated
 
@@ -78,8 +117,10 @@ The following is a list of tracked _**C**ommon **V**ulnerabilities and **E**xpos
 |https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-1000028[CVE-2017-1000028] | 7.5 | FIXED | Oracle, GlassFish Server Open Source Edition 4.1 is vulnerable to both authenticated and unauthenticated Directory Traversal vulnerability, that can be exploited by issuing a specially crafted HTTP GET request. | 4.1.1.161 | Fixed by patching Woodstock
 |=======================================================================
 
-Additionally, here are is a list of non-**CVE** vulnerabilities reported and analyzed
-as well:
+[[non-cve-vulnerabilities]]
+== Non-CVE Vulnerabilities
+
+Here is a collection of historic non-**CVE** vulnerabilities that may warrant attention:
 
 [cols="<,<,<,<,<",options="header",]
 |=======================================================================
