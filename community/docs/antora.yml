@@ -2,6 +2,7 @@ name: docs
 title: Payara Platform
 version: 6.2022.1
 prerelease: true
+version: 6.2023.2
 start_page: ROOT:Overview.adoc
 nav:
   - modules/ROOT/nav.adoc
