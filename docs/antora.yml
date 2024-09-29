@@ -1,2 +1,4 @@
 name: docs
-version: 6.2023.2
+version: 6.2022.1
+prerelease: true
+
